@@ -13,4 +13,4 @@ jobs:
           echo '${{ toJSON(github) }}'
       - name: Comment contains trigger
         if: contains(github.event.comment.body, 'test comment')
-        runs: ./.github/actions/branch
+        uses: ./.github/actions/branch
