@@ -11,7 +11,7 @@ async function run() {
     console.log(`context: ${JSON.stringify(context, undefined, 2)}`);
     let prNumber = github.context.issue.number;
     console.log('prNumber', prNumber)
-    let prInfo = octokit.rest.pulls.get({
+    let prInfo = await octokit.rest.pulls.get({
       ...context.repo,
       pull_number: prNumber
     });
