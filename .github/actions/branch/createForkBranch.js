@@ -8,6 +8,7 @@ async function run() {
   try {
     let branch = core.getInput('branch');
     let sha = core.getInput('sha');
+    console.log(`branch: ${branch} and sha: ${sha}`)
     core.debug(`branch: ${branch} and sha: ${sha}`);
 
     branch = branch.replace('refs/heads/', '');
