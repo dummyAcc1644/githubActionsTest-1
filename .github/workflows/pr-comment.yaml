@@ -9,6 +9,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@main
+      - name: Use Node 16
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - name: install
+        # TODO: change to yarn when running in RSP
+        run: npm install
       - name: What is the pr info?
         run: |
           echo '${{ toJSON(github) }}'
