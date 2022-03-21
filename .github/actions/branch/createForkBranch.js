@@ -8,14 +8,14 @@ async function run() {
   const context = github.context;
   try {
     // Need to grab PR number since the event won't have the sha/branch name available
-    console.log(`context: ${toJSON(context)}`);
+    console.log(`context: ${context}`);
     let prNumber = github.context.issue.number;
     console.log('prNumber', prNumber)
     let prInfo = octokit.rest.pulls.get({
       ...context.repo,
       pull_number: prNumber
     });
-    console.log(`pr info: ${toJSON(prInfo)}`);
+    console.log(`pr info: ${prInfo}`);
 
     // let branch = core.getInput('branch');
     // let sha = core.getInput('sha');
