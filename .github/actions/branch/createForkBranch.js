@@ -12,9 +12,9 @@ async function run() {
 
     branch = branch.replace('refs/heads/', '');
     let ref = `refs/heads/${branch}`;
-
+    core.debug(`ref: ${ref}`);
     // Testing if there is a PR related to the commit
-    let {data: prs} = await octokit.repos.listPullRequestsAssociatedWithCommit({
+    let {data: prs} = await octokit.rest.repos.listPullRequestsAssociatedWithCommit({
       ...github.context.repo,
       commit_sha: github.context.sha
     });
@@ -28,7 +28,7 @@ async function run() {
       });
     } catch (error) {
       if (error.name === 'HttpError' && error.status === 404) {
-        console.debug('in if')
+        core.debug('in if')
         // const resp = await octokit.rest.git.createRef({
         //   ref,
         //   sha: sha || context.sha,
