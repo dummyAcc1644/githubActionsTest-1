@@ -4,23 +4,37 @@ const github = require('@actions/github');
 run();
 
 async function run() {
-  const octokit = github.getOctokit(process.env.GITHUB_TOKEN)
+  const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
+  const context = github.context;
   try {
-    let branch = core.getInput('branch');
-    let sha = core.getInput('sha');
-    console.log(`branch: ${branch} and sha: ${sha}`)
-    core.debug(`branch: ${branch} and sha: ${sha}`);
-
-    branch = branch.replace('refs/heads/', '');
-    let ref = `refs/heads/${branch}`;
-    core.debug(`ref: ${ref}`);
-    // Testing if there is a PR related to the commit
-    let {data: prs} = await octokit.rest.repos.listPullRequestsAssociatedWithCommit({
-      ...github.context.repo,
-      commit_sha: github.context.sha
+    // Need to grab PR number since the event won't have the sha/branch name available
+    let prNumber = github.event.issue.number;
+    console.log('prNumber', prNumber)
+    let prInfo = octokit.rest.pulls.get({
+      ...context.repo,
+      pull_number: prNumber
     });
+    console.log(`${toJSON(prInfo)}`);
 
-    core.debug(`prs: ${prs}`)
+    // let branch = core.getInput('branch');
+    // let sha = core.getInput('sha');
+    // console.log(`branch: ${github.context.branch} and sha: ${github.context.sha}`)
+    // core.debug(`branch: ${branch} and sha: ${sha}`);
+
+    // branch = branch.replace('refs/heads/', '');
+    // let ref = `refs/heads/${branch}`;
+    // core.debug(`ref: ${ref}`);
+    // Testing if there is a PR related to the commit
+    // let {data: prs} = await octokit.rest.repos.listPullRequestsAssociatedWithCommit({
+    //   ...github.context.repo,
+    //   commit_sha: github.context.sha
+    // });
+
+    // core.debug(`prs: ${prs}`)
+
+    // TODO: replace hardcoded branch and ref
+    let branch = 'blah';
+    let ref = 'refs/heads/blah';
 
     try {
       await octokit.rest.repos.getBranch({
@@ -29,12 +43,14 @@ async function run() {
       });
     } catch (error) {
       if (error.name === 'HttpError' && error.status === 404) {
-        core.debug('in if')
-        // const resp = await octokit.rest.git.createRef({
-        //   ref,
-        //   sha: sha || context.sha,
-        //   ...context.repo,
-        // });
+        console.log('in if');
+        // core.debug('in if')
+        const resp = await octokit.rest.git.createRef({
+          ref,
+          sha: sha || context.sha,
+          ...context.repo,
+        });
+        console.log(`response: ${resp}`);
         // core.debug(`response: ${resp.data.ref}`);
         // return resp?.data?.ref === ref;
       } else {
