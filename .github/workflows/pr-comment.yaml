@@ -13,5 +13,4 @@ jobs:
           echo '${{ toJSON(github) }}'
       - name: Comment contains trigger
         if: contains(github.event.comment.body, 'test comment')
-        run: |
-          echo "Comment on PR #${{ github.event.issue.number }}"
+        uses: ./.github/actions/branch
