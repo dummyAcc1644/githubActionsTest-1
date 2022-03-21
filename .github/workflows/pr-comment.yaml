@@ -8,6 +8,7 @@ jobs:
       github.event.issue.pull_request
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@main
       - name: What is the pr info?
         run: |
           echo '${{ toJSON(github) }}'
