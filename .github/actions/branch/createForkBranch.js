@@ -16,11 +16,18 @@ async function run() {
     const ref = `refs/heads/${branch}`;
     const sha = data.head.sha;
 
+    let res;
     // Look up if branch for fork PR exists in base repo
-    let res = await octokit.rest.repos.getBranch({
-      ...context.repo,
-      branch
-    });
+    try {
+      res = await octokit.rest.repos.getBranch({
+        ...context.repo,
+        branch
+      });
+    } catch (error) {
+      if (!(error.name === 'HttpError' && error.status === 404)) {
+        throw error;
+      }
+    }
 
     if (res.status === 200) {
       // If branch already exists update it to match fork PR state
@@ -39,7 +46,6 @@ async function run() {
         sha: sha
       });
     }
-
   } catch (error) {
     core.setFailed(error.message);
   }
