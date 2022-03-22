@@ -14,7 +14,7 @@ async function run() {
     });
     const branch = `${data.user.login}-${data.head.ref}`;
     const ref = `refs/heads/${branch}`;
-    const sha = data.head.sha;
+    const sha = data.merge_commit_sha;
 
     let res;
     // Look up if branch for fork PR exists in base repo
@@ -29,11 +29,10 @@ async function run() {
       } else {
         // If branch doesn't exist for the forked PR, create one so we can get a
         // build for it and return
-        console.log('1', branch, ref, sha)
         await octokit.rest.git.createRef({
           ...context.repo,
           ref,
-          sha: sha
+          sha
         });
         return;
       }
@@ -41,11 +40,10 @@ async function run() {
 
     // If branch already exists update it to match fork PR state.
     if (res.status === 200) {
-      console.log('2')
       await octokit.rest.git.updateRef({
         ...context.repo,
         sha,
-        ref,
+        ref: `heads/${branch}`,
         force: true
       })
     }
