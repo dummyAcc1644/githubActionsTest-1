@@ -28,7 +28,7 @@ async function run() {
         throw error;
       }
     }
-
+    console.log('res', res)
     if (res.status === 200) {
       // If branch already exists update it to match fork PR state
       await octokit.rest.git.updateRef({
