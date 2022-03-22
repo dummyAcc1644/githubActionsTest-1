@@ -26,25 +26,28 @@ async function run() {
     } catch (error) {
       if (!(error.name === 'HttpError' && error.status === 404)) {
         throw error;
+      } else {
+        // If branch doesn't exist for the forked PR, create one so we can get a
+        // build for it and return
+        console.log('1')
+        await octokit.rest.git.createRef({
+          ...context.repo,
+          ref,
+          sha: sha
+        });
+        return;
       }
     }
-    console.log('res', res)
+
+    // If branch already exists update it to match fork PR state.
     if (res.status === 200) {
-      // If branch already exists update it to match fork PR state
+      console.log('2')
       await octokit.rest.git.updateRef({
         ...context.repo,
         sha,
         ref,
         force: true
       })
-    } else if (res.status === 404) {
-      // If branch doesn't exist for the forked PR, create one so we can get a
-      // build for it
-      await octokit.rest.git.createRef({
-        ...context.repo,
-        ref,
-        sha: sha
-      });
     }
   } catch (error) {
     core.setFailed(error.message);
