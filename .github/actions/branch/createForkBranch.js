@@ -29,7 +29,7 @@ async function run() {
       } else {
         // If branch doesn't exist for the forked PR, create one so we can get a
         // build for it and return
-        console.log('1')
+        console.log('1', branch, ref, sha)
         await octokit.rest.git.createRef({
           ...context.repo,
           ref,
