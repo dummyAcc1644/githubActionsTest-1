@@ -5,7 +5,8 @@ jobs:
   pr_commented:
     name: PR comment workflow
     if: |
-      github.event.issue.pull_request
+      github.event.issue.pull_request &&
+      github.event.comment.author_association == 'OWNER'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@main
