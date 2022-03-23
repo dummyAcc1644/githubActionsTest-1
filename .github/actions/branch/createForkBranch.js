@@ -12,8 +12,8 @@ async function run() {
       ...context.repo,
       pull_number: prNumber
     });
-    console.log('repo full name PR', data.head.repo.full_name, context.repo.full_name)
-    if (data.head.repo.full_name !== context.repo.full_name) {
+    console.log('repo full name PR', data.head.repo.name, JSON.stringify(context, undefined, 2))
+    if (data.head.repo.full_name !== context.repo.name) {
       const branch = `${data.user.login}-${data.head.ref}`;
       const ref = `refs/heads/${branch}`;
       const sha = data.merge_commit_sha;
