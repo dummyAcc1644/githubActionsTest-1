@@ -15,4 +15,4 @@ jobs:
         run: npm install
       - name: What is the pr info?
         run: |
-          echo 'blah'
+          echo 'edited'
