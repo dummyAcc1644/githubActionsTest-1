@@ -21,6 +21,14 @@ jobs:
       - name: What is the pr info?
         run: |
           echo '${{ toJSON(github) }}'
+      - name: Check write permissions
+        uses: ./.github/actions/permissions
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  create_branch:
+    needs: pr_commented
+    runs-on: ubuntu-latest
       - name: Create branch
         uses: ./.github/actions/branch
         env:

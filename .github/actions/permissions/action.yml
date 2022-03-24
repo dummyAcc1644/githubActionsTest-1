@@ -1,0 +1,5 @@
+name: 'Check permissions'
+description: 'checks if user has write access'
+runs:
+  using: 'node16'
+  main: 'index.js'
