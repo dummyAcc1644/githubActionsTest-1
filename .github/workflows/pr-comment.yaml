@@ -6,7 +6,8 @@ jobs:
     name: PR comment workflow
     if: |
       github.event.issue.pull_request &&
-      github.event.comment.author_association == 'OWNER'
+      github.event.comment.author_association == 'OWNER' &&
+      contains(github.event.comment.body, 'test comment')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@main
@@ -20,8 +21,7 @@ jobs:
       - name: What is the pr info?
         run: |
           echo '${{ toJSON(github) }}'
-      - name: Comment contains trigger
-        if: contains(github.event.comment.body, 'test comment')
+      - name: Create branch
         uses: ./.github/actions/branch
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
