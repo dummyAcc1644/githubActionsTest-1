@@ -1,0 +1,18 @@
+name: PR req
+on: pull_request
+
+jobs:
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - name: Use Node 16
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - name: install
+        run: npm install
+      - name: What is the pr info?
+        run: |
+          echo 'blah'
