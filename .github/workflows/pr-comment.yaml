@@ -24,12 +24,6 @@ jobs:
         uses: ./.github/actions/permissions
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  create_branch:
-    needs: pr_commented
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@main
       - name: Create branch
         uses: ./.github/actions/branch
         env:
