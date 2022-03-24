@@ -29,6 +29,7 @@ jobs:
     needs: pr_commented
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@main
       - name: Create branch
         uses: ./.github/actions/branch
         env:
