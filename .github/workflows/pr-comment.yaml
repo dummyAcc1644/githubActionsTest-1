@@ -28,6 +28,7 @@ jobs:
   create_branch:
     needs: pr_commented
     runs-on: ubuntu-latest
+    steps:
       - name: Create branch
         uses: ./.github/actions/branch
         env:
