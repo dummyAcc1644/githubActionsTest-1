@@ -1,5 +1,7 @@
 name: PR comment
-on: issue_comment
+on:
+  issue_comment
+  workflow_dispatch
 
 jobs:
   pr_commented:
